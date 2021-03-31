@@ -21,28 +21,63 @@ HSV = rgb2hsv(rgb);
 % RGB to HSL
 HSL = rgb2hsl(rgb);
 
-% Show Original Image
+% Yellow Masking
+[Yellow, YellowMaskedRGBImage] = createMask(rgb, 1, 0.5, 0.2, 1, .85, 1);
+
+% White Masking
+[White, WhiteMaskedRGBImage] = createMask(rgb, 0, 1, 0, .08, .95, 1);
+
+% Combined Mask
+C = Yellow + White;
+
+% Show original Image
 subplot(2, 3, 1);
 imshow(rgb);
 title('original');
 
+% Show grayscale Image
 subplot(2, 3, 2);
 imshow(G);
 title('grayscale');
 
+% Show darkened grayscale Image
 subplot(2, 3, 3);
 imshow(D);
 title('darkened grayscale');
 
+% Show HSV Image
 subplot(2, 3, 4);
 imshow(HSV);
 title('HSV');
 
+% Show HSL Image
 subplot(2, 3, 5);
 imshow(HSL);
 title('HSL');
-
 pause;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Show original Image
+subplot(2, 2, 1);
+imshow(rgb);
+title('original');
+
+% Show yellow mask Image
+subplot(2, 2, 2);
+imshow(Yellow);
+title('yellow lines');
+
+% Show white mask Image
+subplot(2, 2, 3);
+imshow(WhiteMaskedRGBImage);
+title('white lines');
+
+% Show Combined Image
+subplot(2, 2, 4);
+imshow(C);
+title('Combined');
+
+pause;
 
 clc; close all; clear;
