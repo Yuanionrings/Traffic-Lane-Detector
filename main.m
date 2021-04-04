@@ -6,7 +6,7 @@
 clc; close all; clear;
 
 % Scan in Image
-test = imread('resource\test.jpg');
+test = imread('resource\test1.jpg');
 rgb = double(test) / 255;
 
 % Convert to Grayscale
