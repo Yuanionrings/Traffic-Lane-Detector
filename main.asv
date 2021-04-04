@@ -1,6 +1,6 @@
 % COMP3800 – Image Processing
 % Traffic Lane Detector
-% Yuan Gao, Will Eddy, Tyler
+% Yuan Gao, Wil Eddy, Tyler
 % 03/31/2021
 
 clc; close all; clear;
@@ -22,46 +22,81 @@ HSV = rgb2hsv(rgb);
 HSL = rgb2hsl(rgb);
 
 % Yellow Masking
-[Yellow, YellowMaskedRGBImage] = createMask(rgb, .9, .15, 0, 1, .85, 1);
+[Yellow, YellowMaskedRGBImage] = createMask(rgb, 1, 0.5, 0.2, 1, .85, 1);
 
 % White Masking
-[White, maskedRGBImage] = createMask(rgb, .9, .15, 0, 1, .85, 1);
+[White, WhiteMaskedRGBImage] = createMask(rgb, 0, 1, 0, .08, .95, 1);
 
-% Show Original Image
+% Combined Mask
+C = Yellow + White;
+
+% Show original Image
 subplot(2, 3, 1);
 imshow(rgb);
 title('original');
 
+% Show grayscale Image
 subplot(2, 3, 2);
 imshow(G);
 title('grayscale');
 
+% Show darkened grayscale Image
 subplot(2, 3, 3);
 imshow(D);
 title('darkened grayscale');
 
+% Show HSV Image
 subplot(2, 3, 4);
 imshow(HSV);
 title('HSV');
 
+% Show HSL Image
 subplot(2, 3, 5);
 imshow(HSL);
 title('HSL');
 pause;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-subplot(1, 3, 1);
+% Show original Image
+subplot(2, 2, 1);
 imshow(rgb);
 title('original');
 
-subplot(1, 3, 2);
+% Show yellow mask Image
+subplot(2, 2, 2);
 imshow(Yellow);
 title('yellow lines');
 
-subplot(1, 3, 3);
-imshow(White);
+% Show white mask Image
+subplot(2, 2, 3);
+imshow(WhiteMaskedRGBImage);
 title('white lines');
 
+% Show Combined Image
+subplot(2, 2, 4);
+imshow(C);
+title('Combined');
+
 pause;
+
+% Slight Gaussian blur, this reduces number of detected edges
+Combined_Image_Gaussian_Blur = imgaussfilt(C,2);
+
+% Show Combined Image
+subplot(1, 2, 1);
+imshow(C);
+title('Combined');
+
+% Show Gaussian Blurred Image
+subplot(1, 2, 2);
+imshow(Combined_Image_Gaussian_Blur);
+title('Combined_Image_Gaussian_Blurred'); 
+
+%
+
+pause;
+
+
 
 clc; close all; clear;

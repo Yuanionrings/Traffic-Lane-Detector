@@ -1,6 +1,6 @@
 % COMP3800 – Image Processing
 % Traffic Lane Detector
-% Yuan Gao, Will Eddy, Tyler
+% Yuan Gao, Wil Eddy, Tyler
 % 03/31/2021
 
 clc; close all; clear;
@@ -79,5 +79,37 @@ imshow(C);
 title('Combined');
 
 pause;
+
+% Slight Gaussian blur, this reduces number of detected edges
+Combined_Image_Gaussian_Blur = imgaussfilt(C,2);
+
+% Apply Canny Edge Detection
+Edge_Detection_Image = edge(Combined_Image_Gaussian_Blur, 'canny');
+
+% Show Combined Image
+subplot(2, 2, 1);
+imshow(C);
+title('Combined');
+
+% Show Gaussian Blurred Image
+subplot(2, 2, 2);
+imshow(Combined_Image_Gaussian_Blur);
+title('Combined_Image_Gaussian_Blurred'); 
+
+% Show Canny Edge Detection Image
+subplot(2, 2, 3);
+imshow(Edge_Detection_Image); 
+title('Edge_Detection_Image'); 
+
+% Show Region of Interest
+subplot(2, 2, 4);
+imshow(ROI);
+title('Region of Interest')
+
+pause;
+
+
+
+
 
 clc; close all; clear;
