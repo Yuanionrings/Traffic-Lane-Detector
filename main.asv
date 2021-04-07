@@ -6,7 +6,8 @@
 clc; close all; clear;
 
 % Scan in Image
-test = imread('resource\test.jpg');
+test = imread('resource\wet1.jpg');
+test = imrotate(test,270);
 rgb = double(test) / 255;
 
 % Convert to Grayscale
@@ -83,19 +84,56 @@ pause;
 % Slight Gaussian blur, this reduces number of detected edges
 Combined_Image_Gaussian_Blur = imgaussfilt(C,2);
 
+% Apply Canny Edge Detection
+Edge_Detection_Image = edge(Combined_Image_Gaussian_Blur, 'canny');
+
+% Perform ROI
+% define vertices of polygon
+% don't know how to handle this, should we make dynamic for pictures
+% or just hard code for our images?
+Cropped_Image = imcrop(Edge_Detection_Image,[0 1200 3000 1400]);
+
 % Show Combined Image
-subplot(1, 2, 1);
+subplot(2, 2, 1);
 imshow(C);
 title('Combined');
 
 % Show Gaussian Blurred Image
-subplot(1, 2, 2);
+subplot(2, 2, 2);
 imshow(Combined_Image_Gaussian_Blur);
 title('Combined_Image_Gaussian_Blurred'); 
 
-%
+% Show Canny Edge Detection Image
+subplot(2, 2, 3);
+imshow(Edge_Detection_Image); 
+title('Edge_Detection_Image'); 
+
+% Show Region of Interest
+subplot(2, 2, 4);
+imshow(Cropped_Image);
+title('Region of Interest')
 
 pause;
+
+% Perform Hough Transform
+[H,T,R] = hough(Cropped_Image);
+P = houghpeaks(H,5,'threshold',ceil(0.3*max(H(:))));
+x = T(P(:,2)); y = R(P(:,1));
+lines = houghlines(Cropped_Image,T,R,P,'FillGap',5,'MinLength',7);
+figure, imshow(G), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   %plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   %plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+end
+
+pause;
+
+
 
 
 
