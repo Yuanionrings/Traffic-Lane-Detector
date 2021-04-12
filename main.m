@@ -6,7 +6,7 @@
 clc; close all; clear;
 
 % Scan in Image
-test = imread('resource\wet1.jpg');
+test = imread('resource\dark1.jpg');
 test = imrotate(test,270);
 rgb = double(test) / 255;
 
@@ -23,10 +23,12 @@ HSV = rgb2hsv(rgb);
 HSL = rgb2hsl(rgb);
 
 % Yellow Masking
-[Yellow, YellowMaskedRGBImage] = createMask(rgb, 1, 0.5, 0.2, 1, .85, 1);
+[Yellow, YellowMaskedRGBImage] = createMask(rgb, 1, 0.5, 0.2, 1, .65, 1);
+%[Yellow, YellowMaskedRGBImage] = createMask(rgb, 1, 0.5, 0.2, 1, .85, 1);
 
 % White Masking
-[White, WhiteMaskedRGBImage] = createMask(rgb, 0, 1, 0, .08, .95, 1);
+[White, WhiteMaskedRGBImage] = createMask(rgb, 0, 1, 0, .08, .80, 1);
+%[White, WhiteMaskedRGBImage] = createMask(rgb, 0, 1, 0, .08, .95, 1);
 
 % Combined Mask
 C = Yellow + White;
@@ -91,7 +93,7 @@ Edge_Detection_Image = edge(Combined_Image_Gaussian_Blur, 'canny');
 % don't know how to handle this, should we make dynamic for pictures
 % or just hard code for our images?
 % these params are xmin yim width height
-Cropped_Image = imcrop(Edge_Detection_Image,[0 1200 3024 1400]);
+Cropped_Image = imcrop(Edge_Detection_Image,[0 1400 3024 1400]);
 
 % Show Combined Image
 subplot(2, 2, 1);
@@ -124,7 +126,7 @@ figure, imshow(G), hold on
 max_len = 0;
 for k = 1:length(lines)
    xy = [lines(k).point1; lines(k).point2];
-   plot(xy(:,1),xy(:,2)+1200,'LineWidth',2,'Color','green');
+   plot(xy(:,1),xy(:,2)+1400,'LineWidth',2,'Color','green');
 
    % Plot beginnings and ends of lines
    %plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
