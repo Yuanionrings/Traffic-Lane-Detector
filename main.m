@@ -6,21 +6,12 @@
 clc; close all; clear;
 
 % Scan in Image
-test = imread('resource\dark1.jpg');
+test = imread('resource\biggg.jpg');
 test = imrotate(test,270);
 rgb = double(test) / 255;
 
 % Convert to Grayscale
 G = rgb2gray(rgb);
-
-% Darken Grayscale
-D = imadjust(G);
-
-% RGB to HSV
-HSV = rgb2hsv(rgb);
-
-% RGB to HSL
-HSL = rgb2hsl(rgb);
 
 % Yellow Masking
 [Yellow, YellowMaskedRGBImage] = createMask(rgb, 1, 0.5, 0.2, 1, .65, 1);
@@ -33,61 +24,13 @@ HSL = rgb2hsl(rgb);
 % Combined Mask
 C = Yellow + White;
 
-% Show original Image
-subplot(2, 3, 1);
-imshow(rgb);
-title('original');
-
-% Show grayscale Image
-subplot(2, 3, 2);
-imshow(G);
-title('grayscale');
-
-% Show darkened grayscale Image
-subplot(2, 3, 3);
-imshow(D);
-title('darkened grayscale');
-
-% Show HSV Image
-subplot(2, 3, 4);
-imshow(HSV);
-title('HSV');
-
-% Show HSL Image
-subplot(2, 3, 5);
-imshow(HSL);
-title('HSL');
-pause;
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Show original Image
-subplot(2, 2, 1);
-imshow(rgb);
-title('original');
-
-% Show yellow mask Image
-subplot(2, 2, 2);
-imshow(Yellow);
-title('yellow lines');
-
-% Show white mask Image
-subplot(2, 2, 3);
-imshow(WhiteMaskedRGBImage);
-title('white lines');
-
-% Show Combined Image
-subplot(2, 2, 4);
-imshow(C);
-title('Combined');
-
-pause;
 
 % Slight Gaussian blur, this reduces number of detected edges
 Combined_Image_Gaussian_Blur = imgaussfilt(C,2);
 
 % Apply Canny Edge Detection
-Edge_Detection_Image = edge(Combined_Image_Gaussian_Blur, 'canny');
+Edge_Detection_Image = edge(Combined_Image_Gaussian_Blur, 'canny', [.7 .99]);
 
 % Perform ROI
 % don't know how to handle this, should we make dynamic for pictures
@@ -119,14 +62,16 @@ pause;
 
 % Perform Hough Transform
 [H,T,R] = hough(Cropped_Image);
-P = houghpeaks(H,5,'threshold',ceil(0.3*max(H(:))));
+P = houghpeaks(H,2,'threshold',ceil(0.3*max(H(:))));
 x = T(P(:,2)); y = R(P(:,1));
-lines = houghlines(Cropped_Image,T,R,P,'FillGap',5,'MinLength',7);
+lines = houghlines(Cropped_Image,T,R,P,'FillGap',1000,'MinLength',2);
+
 figure, imshow(G), hold on
 max_len = 0;
+
 for k = 1:length(lines)
    xy = [lines(k).point1; lines(k).point2];
-   plot(xy(:,1),xy(:,2)+1400,'LineWidth',2,'Color','green');
+   plot(xy(:,1),xy(:,2)+1400,'LineWidth',4,'Color','Red');
 
    % Plot beginnings and ends of lines
    %plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
