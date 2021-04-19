@@ -12,7 +12,7 @@ undergoes our lane detection pipeline which consists of:
 7) retreieve hough lines
 8) consolidate and extrapolate houghlines and overlay them on original image
 
-## Experiment Results
+## Algorithm Results
 Sunny Road
 
 ![Screenshot](Result_Images/sunny_results.png)
