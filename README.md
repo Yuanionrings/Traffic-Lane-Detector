@@ -14,16 +14,20 @@ undergoes our lane detection pipeline which consists of:
 
 ## Experiment Results
 Sunny Road
-![Screenshot](Result_Images/sunny_result.png)
+
+![Screenshot](Result_Images/sunny_results.png)
 
 Wet Road
 
+![Screenshot](Result_Images/wet_results.png)
 
 Dusk Road
 
+![Screenshot](Result_Images/dusk_results.png)
 
 Dark Road
 
+![Screenshot](Result_Images/dark_results.png)
 
 ## Setup and Running
 1. Simply clone this code into a local directory
