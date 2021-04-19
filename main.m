@@ -6,7 +6,7 @@
 clc; close all; clear;
 
 % Scan in Image
-test = imread('resource\biggg.jpg');
+test = imread('resource\dusk.jpg');
 test = imrotate(test,270);
 rgb = double(test) / 255;
 
